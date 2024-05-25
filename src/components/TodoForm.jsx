@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 
-const TodoForm = () => {
+const TodoForm = props => {
+    const { handleAddTask } = props // destructuring o desestructuracion
 
     const [tarea, setTarea] = useState("")
 
     const handleSubmit = (element) => {
         element.preventDefault();
         console.log(tarea)
+        handleAddTask({
+            done: false,
+            id: (+new Date).toString(),
+            tarea // tarea: "algo > valor de mi variable de estado tarea"
+        })
         setTarea("")
     };
 

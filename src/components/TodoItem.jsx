@@ -1,11 +1,20 @@
 import React from 'react'
 
-const TodoItem = () => {
+const TodoItem = props => {
+  const { key, data } = props
+
   return (
     <li>
-      TodoItem
+      { data.tarea }
     </li>
   )
 }
 
 export default TodoItem
+
+
+
+
+
+
+
