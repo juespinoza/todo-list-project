@@ -2,21 +2,32 @@ import React from 'react'
 import TodoItem from './TodoItem'
 
 const TodoList = props => {
-  const { lista, setLista } = props
+  const { lista, setLista, borrarTarea, checkTarea } = props
 
   const onChangeStatus = e => {
     const { name, checked } = e.target;
-    const updateList = lista.map(item => ({
-        ...item,
-        done: item.id === name ? checked : item.done
-    }));
-    console.log(lista);
-    setLista(updateList);
+    console.log("onChange", checked);
+    let itemActual = lista.filter((i) => i.id === name)[0]
+    checkTarea({
+      ...itemActual, 
+      done: checked
+    })
+    // const updateList = lista.map(item => ({
+    //     ...item,
+    //     done: item.id === name ? checked : item.done
+    // }));
+    // console.log(lista);
+    // checkTarea(updateList);
 };
 
   const checkboxes = lista.map((item) => {
     console.log(item)
-    return <TodoItem key={item.id} data={item} onChange={onChangeStatus}/>
+    return (
+      <div key={item.id} >
+        <TodoItem data={item} onChange={onChangeStatus}/>
+        <button onClick={() => borrarTarea(item.id)}>borrar {item.tarea}</button>
+      </div>
+    )
   })
 
   
