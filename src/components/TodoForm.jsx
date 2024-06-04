@@ -23,10 +23,12 @@ const TodoForm = props => {
              type='text' 
              value={tarea} 
              onChange={(element) => setTarea(element.target.value) }
+             className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
              />
             <button
              type='submit'
              disabled={(tarea)?"":"disabled"}
+             className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'
              >Agregar</button>
         </form>
         </div>
