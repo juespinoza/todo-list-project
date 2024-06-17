@@ -8,12 +8,35 @@ const TodoForm = props => {
     const handleSubmit = (element) => {
         element.preventDefault();
         console.log(tarea)
-        handleAddTask({
+        // Crear mi objeto nuevo nuevaTarea
+        // lo que va a ir en el body de mi solicitud
+        const nuevaTarea = {
             done: false,
             id: (+new Date).toString(),
             tarea // tarea: "algo > valor de mi variable de estado tarea"
-        })
-        setTarea("")
+        };
+        // Crear el objeto de mi solicitud
+        const datosSolicitud = {
+            method: "POST",
+            header: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(nuevaTarea)
+        }
+        handleAddTask(nuevaTarea);
+        // fetch(url, datosSolicitud)
+    
+        const handlePostReq = async () => {
+            const request = await fetch(
+                new Request('http://localhost:3001/tarea'), 
+                datosSolicitud
+            )
+            const data = await request.json();
+            console.log("data", data);
+        }
+        handlePostReq();
+
+        setTarea("");
     };
 
     return (
