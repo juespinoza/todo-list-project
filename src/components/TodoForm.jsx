@@ -7,7 +7,7 @@ const TodoForm = props => {
 
     const handleSubmit = (element) => {
         element.preventDefault();
-        console.log(tarea)
+        // console.log(tarea)
         // Crear mi objeto nuevo nuevaTarea
         // lo que va a ir en el body de mi solicitud
         const nuevaTarea = {
@@ -18,7 +18,7 @@ const TodoForm = props => {
         // Crear el objeto de mi solicitud
         const datosSolicitud = {
             method: "POST",
-            header: {
+            headers: {
                 'Content-Type': "application/json"
             },
             body: JSON.stringify(nuevaTarea)
