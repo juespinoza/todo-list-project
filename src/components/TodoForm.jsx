@@ -10,10 +10,22 @@ const TodoForm = props => {
         // console.log(tarea)
         // Crear mi objeto nuevo nuevaTarea
         // lo que va a ir en el body de mi solicitud
-        const nuevaTarea = {
-            done: false,
+        let usuario = 'Julia';
+        let nuevaTarea = {
             id: (+new Date).toString(),
-            tarea // tarea: "algo > valor de mi variable de estado tarea"
+            tarea, // tarea: "algo > valor de mi variable de estado tarea"
+            done: false
+        }
+        if(usuario){
+            nuevaTarea = {
+                ...nuevaTarea,
+                usuario
+            };
+        }
+        nuevaTarea = {
+            id: (+new Date).toString(),
+            tarea, // tarea: "algo > valor de mi variable de estado tarea"
+            done: false,
         };
         // Crear el objeto de mi solicitud
         const datosSolicitud = {

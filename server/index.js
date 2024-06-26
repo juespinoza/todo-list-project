@@ -22,6 +22,9 @@ app.use(express.json());
 // sino existe entonces asignamos el puerto 3001
 const PORT = process.env.PORT || '3001';
 
+// Password de BD
+const password = process.env.DB_PASS || 'Jul143sp1n0z4';
+
 // TODO: tenemos que configurar CORS para acceso desde el frontend
 
 // Crear una configuracion de cors
@@ -29,6 +32,31 @@ var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
+
+// Conexion a MongoDB con Mongoose______
+
+// TODO: hacer que la dominio se lea desde una variable de entorno
+// TODO: hacer que la usuario se lea desde una variable de entorno
+// TODO: hacer que el password lea desde una variable de entorno
+// TODO: hacer que el password lea desde una variable de entorno
+const mongoose = require('mongoose');
+const uri = `mongodb+srv://${process.env.DB_USUARIO}:${process.env.DB_PASSWORD}@${process.env.DB_DOMAIN}/?appName=${process.env.DB_CLUSTER}`;
+
+const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+
+async function run() {
+  try {
+    // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+    await mongoose.connect(uri, clientOptions);
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await mongoose.disconnect();
+  }
+}
+run().catch(console.dir);
+//_____________________________________________
 
 // Activamos CORS para todas las solicitudes con la configuracion de arriba.
 app.use(
