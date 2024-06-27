@@ -1,32 +1,28 @@
-// Hacemos el import de Express.js
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// + Importacion de paquetes y archivos necesarios 
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+require('dotenv').config()
 const express = require('express');
-
-// 1- Importar jsonwebtoken
 const jwt = require('jsonwebtoken');
-
-// Hacemos el import del middleware CORS
-const cors = require('cors');
-
-// Creamos nuestra app backend con el metodo express()
-const app = express();
-
-// 2- Configurar nuestro secret
+const cors = require('cors'); // middleware
 const jwtConfig = require('../jwt.config');
-app.set('key', jwtConfig.clave);
+require('./models/usuario');
 
-// 3- BodyParser y express.json()
-// Activar el middleware express.json para convertir las solicitudes con body-stringified
-app.use(express.json());
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// + Configuraciones e initializacion
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-// Configuramos un puerto especifico desde una variable de entorno 
-// sino existe entonces asignamos el puerto 3001
-const PORT = process.env.PORT || '3001';
+const app = express(); // Creamos nuestra app
 
-// Password de BD
-const password = process.env.DB_PASS || 'Jul143sp1n0z4';
+app.set('key', jwtConfig.clave); // Inicializamos el secret para crear el JWT
+app.use(express.json()); // Configuracion para manejar solicitudes JSON
+// Activamos CORS para todas las solicitudes con la configuracion de arriba.
+app.use(
+    cors(corsOptions)
+  );
 
-// TODO: tenemos que configurar CORS para acceso desde el frontend
-
+const PORT = process.env.PORT || '3001'; 
 // Crear una configuracion de cors
 var corsOptions = {
     origin: '*',
@@ -34,14 +30,8 @@ var corsOptions = {
   }
 
 // Conexion a MongoDB con Mongoose______
-
-// TODO: hacer que la dominio se lea desde una variable de entorno
-// TODO: hacer que la usuario se lea desde una variable de entorno
-// TODO: hacer que el password lea desde una variable de entorno
-// TODO: hacer que el password lea desde una variable de entorno
 const mongoose = require('mongoose');
-const uri = `mongodb+srv://${process.env.DB_USUARIO}:${process.env.DB_PASSWORD}@${process.env.DB_DOMAIN}/?appName=${process.env.DB_CLUSTER}`;
-
+const uri = `mongodb+srv://${process.env.DB_USUARIO}:${process.env.DB_PASSWORD}@${process.env.DB_DOMAIN}/${process.env.DB_NAME}?appName=${process.env.DB_CLUSTER}`;
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
 async function run() {
@@ -56,37 +46,41 @@ async function run() {
   }
 }
 run().catch(console.dir);
-//_____________________________________________
 
-// Activamos CORS para todas las solicitudes con la configuracion de arriba.
-app.use(
-    cors(corsOptions)
-  );
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// + Endpoints
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-// 4- Escucha post (/autenticar) que responda con token a nuestro frontend
-app.post('/autenticar', (req, res) => {
+app.post('/autenticar', async (req, res) => {
     // El frontend nos va a enviar usuario/contrasenha { user: "user1", pass: "pass2" }
-    if(req.body.user) {
-        // TODO: VERIFICACION de que el usuario exista en nuestra base de datos 
-        const usuario = req.body.user;
-        // Crear el token
-        const payload = {
-            usuario,
-            checked: true
-        };
-        const key = app.get('key');
-        try {
-            const token = jwt.sign(payload, key);
-            res.send({
-                message: 'Token creado',
-                token
-            });
-        } catch (error) {
-            res.send({
-                message: 'Hubo un error'
-            })
+    if(req.body.email) {
+        // verificamos que el email exista
+        const emailExistente = await Usuario.find({ email: req.body.email });
+        if(emailExistente){
+            const usuario = req.body.user;
+            // TODO: comparar la contrasena recibida con la guardada en la bd
+            // usar bcrypt.compare()
+            // Crear el token
+            const payload = {
+                usuario,
+                checked: true
+            };
+            const key = app.get('key');
+            try {
+                const token = jwt.sign(payload, key);
+                res.send({
+                    message: 'Token creado',
+                    token
+                });
+            } catch (error) {
+                res.send({
+                    message: 'Hubo un error'
+                })
+            }
+        } else {
+            res.send({message: "El email no existe en nuestros registros"})
         }
+        
     } else {
         res.send({message: "No se recibio el user"});
     }
