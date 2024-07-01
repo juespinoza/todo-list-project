@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
-import listaReducer from "../reducers/listaReducer";
+import listaReducer from "../reducers/lista.reducer";
 
 // Formato de elementos de mi lista de tareas
 // {
