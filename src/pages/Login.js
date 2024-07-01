@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { loginUser } from "../actions/authentication.action";
-import LoginForm from "../components/LoginForm"
+import LoginForm from "../components/LoginForm";
+import AuthGlobal from "../store/AuthGlobal";
 
-const Login = () => {
+const Login = props => {
     const context = useContext(AuthGlobal);
     const [showChild, setShowChild] = useState(false);
     useEffect(() => {

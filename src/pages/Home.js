@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import TodoContainer from '../components/TodoContainer';
 import AuthGlobal from '../store/AuthGlobal';
 
-const Home = () => {
+const Home = props => {
   const context = useContext(AuthGlobal);
   const [showChild, setShowChild] = useState(false);
   useEffect(() => {
