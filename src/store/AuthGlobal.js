@@ -3,7 +3,7 @@ import React, {useReducer, useEffect, useState} from "react";
 import authReducer from '../reducers/authentication.reducer';
 import setCurrentUser from '../actions/authentication.action';
 import AuthGlobal from './AuthGlobal';
-import jwt_decode from jwt_decode;
+import jwtDecode from "jwt-decode";
 
 const Auth = props => {
     // Traemos los valores del store
@@ -19,7 +19,7 @@ const Auth = props => {
     useEffect(() => {
         if(localStorage.jwt){
             const decoded = localStorage.jwt ? localStorage.jwt : "";
-            dispatch(setCurrentUser(jwt_decode(decoded)));
+            dispatch(setCurrentUser(jwtDecode(decoded)));
         }
         setShowChildren(true);
     }, [])

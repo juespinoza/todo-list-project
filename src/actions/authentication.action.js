@@ -1,4 +1,4 @@
-import jwt_decode from jwt_decode;
+import { jwtDecode } from "jwt-decode";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
 /*
@@ -22,7 +22,7 @@ export const loginUser = (user, dispatch, seterror) => {
           if (data.ok === true) {
             const token = data.token;
             localStorage.setItem("jwt", token);
-            const decoded = jwt_decode(token);
+            const decoded = jwtDecode(token);
             seterror("")
             dispatch(setCurrentUser(decoded));
           } else {

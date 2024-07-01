@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { loginUser } from "../context/actions/autenticacion.action";
+import { loginUser } from "../actions/authentication.action";
 import LoginForm from "../components/LoginForm"
 
 const Login = () => {
