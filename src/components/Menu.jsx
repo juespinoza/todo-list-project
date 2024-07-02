@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
-
-const MenuItem = ({titulo, menuActivo, setMenuActivo}) => {
-    return (
-        <li><button style={menuActivo === titulo ? {backgroundColor: 'red'}:{}} onClick={() => setMenuActivo(titulo)}>{titulo}</button></li> 
-    )
-}
-
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Menu = (props) => {
-    const { menuActivo, setMenuActivo } = props;
     return (
-        <ul>
-            <MenuItem titulo={"Home"} menuActivo={menuActivo} setMenuActivo={setMenuActivo} />
-            <MenuItem titulo={"Productos"} menuActivo={menuActivo} setMenuActivo={setMenuActivo} />
-            <MenuItem titulo={"Proveedores"} menuActivo={menuActivo} setMenuActivo={setMenuActivo} />
-            <MenuItem titulo={"Contacto"} menuActivo={menuActivo} setMenuActivo={setMenuActivo} />
+      <nav>
+        <ul className="flex">
+            <li className="flex-1 mr-2">
+            <Link to="/home" className="text-center block border border-blue-500 rounded py-2 px-4 bg-blue-500 hover:bg-blue-700 text-white">Inicio</Link>
+            </li>
+            <li className="flex-1 mr-2">
+            <Link to="/done" className="text-center block border border-white rounded hover:border-gray-200 text-blue-500 hover:bg-gray-200 py-2 px-4">Tareas terminadas</Link>
+            </li>
+            <li className="text-center flex-1">
+            <Link to="/proximamente" className='block py-2 px-4 text-gray-400 cursor-not-allowed'>Próximamente</Link>
+            </li>
         </ul>
+      </nav>
     )
 }
 
-export default Menu
+export default Menu;

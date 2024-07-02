@@ -130,7 +130,7 @@ app.post("/api/login", async (req, res) => {
     if (!passwordMatch) {
       return res
         .status(401)
-        .json({ error: "Las contraseñas no son correctas" });
+        .json({ error: "La contraseña no es correcta" });
     }
 
     // Generate JWT token
