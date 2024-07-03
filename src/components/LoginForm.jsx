@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
+    // const [user, setUser] = useState({});
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showComponent, setShowComponent] = useState(false);
@@ -14,14 +15,12 @@ const LoginForm = () => {
         if(!jwt){
             // Si existe: renderizamos el componente
             setShowComponent(true);
-            console.log('se queda aqui')
         } else {
             // Si No existe: redireccionamos a /login
             setShowComponent(false);
-            console.log("lleva al home");
-            // navigate('/');
+            navigate('/Home');
         }
-    }, []);
+    }, [jwt]);
 
     const handleSubmit = (elemento) => {
         elemento.preventDefault();
@@ -46,7 +45,6 @@ const LoginForm = () => {
             if(data.ok === true){
                 // recibir el token de la respuesta del servidor
                 const token = data.token;
-                console.log("El token es:", token);
                 // guardar el token en el window.localStorage 
                 localStorage.setItem('jwt', token);
                 setError('');
@@ -61,7 +59,7 @@ const LoginForm = () => {
 
     if(showComponent){
         return (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='flex flex-col'>
                 <p className='error'>{(error)?error:''}</p>
                 <input 
                 type="email" 

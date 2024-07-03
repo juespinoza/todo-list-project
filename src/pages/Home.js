@@ -15,8 +15,7 @@ const Home = props => {
     } else {
       // Si No existe: redireccionamos a /login
       setShowComponent(false);
-      console.log("llega al redirect");
-      // navigate('/login');
+      navigate('/login');
     }
   }, []);
   

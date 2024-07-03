@@ -9,7 +9,7 @@ import RegisterForm from './components/RegisterForm';
 function App() {
 
   return (
-    <div className="min-h-96 flex flex-col">
+    <div className="min-h-96 flex flex-col flex-wrap justify-center content-center">
       <Routes>
         <Route path='/' exact Component={Home} />
         <Route path='/home' Component={Home} />

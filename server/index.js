@@ -136,7 +136,7 @@ app.post("/api/login", async (req, res) => {
     // Generate JWT token
     const secret = app.get("key");
     const token = jwt.sign({ email: user.email }, secret);
-    res.status(200).json({ token });
+    res.status(200).json({ token, ok: true });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
