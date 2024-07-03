@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../actions/AuthActions';
+import { AuthContext } from "../contexts/AuthContext";
 
 const LoginForm = () => {
+    const { user, dispatch } = useContext(AuthContext)
     const [email, setEmail] = useState('');
     // const [user, setUser] = useState({});
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showComponent, setShowComponent] = useState(false);
-    const jwt = localStorage.getItem('jwt');
-    console.log("jwt", jwt);
+    // const jwt = localStorage.getItem('jwt');
+    // console.log("jwt", jwt);
     const navigate = useNavigate();
     useEffect(() =>{
         // accion para comprobar que existe el item jwt en el localStorage
-        if(!jwt){
+        if(user.authenticated === true){
             // Si existe: renderizamos el componente
             setShowComponent(true);
         } else {
             // Si No existe: redireccionamos a /login
             setShowComponent(false);
-            navigate('/Home');
+            navigate('/home');
         }
     }, [jwt]);
 
@@ -26,35 +29,7 @@ const LoginForm = () => {
         elemento.preventDefault();
         // envio del formulario
         // loguearle al usuario
-        const path = 'http://localhost:3001/api/login';
-        const body = {
-            email,
-            password
-        }
-        // enviar la consulta al servidor
-        fetch(
-            path, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.ok === true){
-                // recibir el token de la respuesta del servidor
-                const token = data.token;
-                // guardar el token en el window.localStorage 
-                localStorage.setItem('jwt', token);
-                setError('');
-                // una vez recibido esto redirigir a / -> Carga el componente Home
-            } else {
-                setError(data.error);
-                setEmail('');
-                setPassword('');
-            }
-        })
+        loginUser(user, dispatch);
     }
 
     if(showComponent){
