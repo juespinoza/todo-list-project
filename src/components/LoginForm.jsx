@@ -13,14 +13,14 @@ const LoginForm = () => {
     useEffect(() =>{
         // accion para comprobar que existe el item jwt en el localStorage
         if(!jwt){
-            // Si existe: renderizamos el componente
+            // Si No existe: renderizamos el componente
             setShowComponent(true);
         } else {
-            // Si No existe: redireccionamos a /login
+            // Si existe: redireccionamos a /home
             setShowComponent(false);
-            navigate('/Home');
+            navigate('/home')
         }
-    }, [jwt]);
+    }, []);
 
     const handleSubmit = (elemento) => {
         elemento.preventDefault();

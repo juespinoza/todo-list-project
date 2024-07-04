@@ -14,6 +14,7 @@ import listaReducer from "../reducers/listaReducer";
 const TodoContainer = () => {
 
     // const [lista, setLista] = useState([])
+    // TODO: hacer get de todas las tareas existentes del usuario.
     const [lista, dispatch] = useReducer(listaReducer, []);
 
     const handleAddTask = (objetoTarea) => { 
@@ -37,10 +38,12 @@ const TodoContainer = () => {
     const checkTarea = (objetoTarea) => {
         // setLista([...lista, objetoTarea]);
         console.log("checkeando", objetoTarea);
-        dispatch({
-            type: 'check',
-            tarea: objetoTarea
-        })
+        dispatch(
+            {
+                type: 'check',
+                tarea: objetoTarea
+            }
+        )
     }
     return (
         <div>
