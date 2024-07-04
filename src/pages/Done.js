@@ -1,4 +1,6 @@
 import React from 'react'
+
+// TODO: hacer llamada a la api para traer tareas done = true
 const Done = () => {
   return (
     <div>
