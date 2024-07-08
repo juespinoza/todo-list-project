@@ -2,7 +2,7 @@ import React from 'react'
 import TodoItem from './TodoItem'
 
 const TodoList = props => {
-  const { lista, setLista, borrarTarea, checkTarea } = props
+  const { lista, borrarTarea, checkTarea } = props
 
   const onChangeStatus = e => {
     const { name, checked } = e.target;

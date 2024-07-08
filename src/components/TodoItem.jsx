@@ -37,7 +37,7 @@ const TodoItem = props => {
     <>
     <label className="todo new-item">
         {/* img con el valor de imgUrl */}
-        <img src={imgUrl} style={{width: '40px'}}/>
+        <img src={imgUrl} style={{width: '40px'}} alt=''/>
         <input
          className="todo input"
          name={id}

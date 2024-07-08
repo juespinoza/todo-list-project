@@ -1,6 +1,5 @@
 import './App.css';
-import TodoContainer from './components/TodoContainer';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Home from '../src/pages/Home';
 import Done from '../src/pages/Done';
 import LoginForm from './components/LoginForm';
