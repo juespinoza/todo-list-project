@@ -1,60 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import { loginUser } from '../actions/AuthActions';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
-    // const [user, setUser] = useState({});
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [showComponent, setShowComponent] = useState(false);
-    const jwt = localStorage.getItem('jwt');
-    console.log("jwt", jwt);
     const navigate = useNavigate();
+    // Importar el contexto
+    const context = useContext(AuthContext);
     useEffect(() =>{
-        // accion para comprobar que existe el item jwt en el localStorage
-        if(!jwt){
-            // Si No existe: renderizamos el componente
-            setShowComponent(true);
-        } else {
-            // Si existe: redireccionamos a /home
-            setShowComponent(false);
-            navigate('/home')
+        if(context.currentUser.authenticated === true) {
+            navigate('/home');
         }
-    }, []);
+        setShowComponent(true);
+    }, [context.currentUser.authenticated, navigate]);
 
-    const handleSubmit = (elemento) => {
-        elemento.preventDefault();
-        // envio del formulario
-        // loguearle al usuario
-        const path = 'http://localhost:3001/api/login';
-        const body = {
-            email,
-            password
+    const handleSubmit = (e) => {
+        console.log("login the user")
+        e.preventDefault();
+        if(email === "" || password === ""){
+            setError("Datos incompletos")
+        } else {
+            loginUser({ email, password }, context.dispatch);
         }
-        // enviar la consulta al servidor
-        fetch(
-            path, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.ok === true){
-                // recibir el token de la respuesta del servidor
-                const token = data.token;
-                // guardar el token en el window.localStorage 
-                localStorage.setItem('jwt', token);
-                setError('');
-                // una vez recibido esto redirigir a / -> Carga el componente Home
-            } else {
-                setError(data.error);
-                setEmail('');
-                setPassword('');
-            }
-        })
     }
 
     if(showComponent){

@@ -10,21 +10,8 @@ const Authentication = props => {
   }
   const [currentUser, dispatch] = useReducer(authReducer, initialValue);
 
-  useEffect(()=>{
-    // Tomar el token del localStorage
-    const token = localStorage.getItem('jwt');
-    if(token){
-      // Decodificar el token para obtener el email. jwt-decode
-
-      // Enviar el email al reducer para actualizar el estado
-    }
-  }, [])
-
-  if (currentUser.authenticated) {
-    return <div>Usuario no autenticado</div>;
-  } else
   return (
-    <AuthContext.Provider value={currentUser}>
+    <AuthContext.Provider value={{currentUser, dispatch}}>
         {props.children}
     </AuthContext.Provider>
 
