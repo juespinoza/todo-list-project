@@ -2,12 +2,16 @@
   "name": "todo-list-project",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
+  "type": "commonjs",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.19",
     "cors": "^2.8.5",
+    "jest": "^27.5.1",
+    "jest-cli": "^29.7.0",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.4.38",
     "react": "^18.3.1",
@@ -20,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!my-library-dir)/'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

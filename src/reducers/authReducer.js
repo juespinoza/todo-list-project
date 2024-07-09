@@ -11,6 +11,12 @@ export default function authReducer( state, action ) {
                 authenticated: !!action.payload.email, // !!'' = false o !!'julia@email.com' = true
                 email: action.payload.email
             };
+        case 'DELETE_CURRENT_USER':
+            return {
+                ...state,
+                authenticated: false,
+                email: ''
+            }
         default:
             return state;
     }

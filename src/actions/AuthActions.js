@@ -17,7 +17,7 @@ export const setCurrentUser = (user) => {
 
 // esta accion recibir las credenciales y va enviar las credenciales a la API
 // con la respuesta de la API va a enviar el email con el dispatch 
-export const loginUser = (credentials, dispatch) => {
+export const loginUser = async (credentials, dispatch) => {
     console.log("AuthActions: loginUser()")
     // loguearle al usuario
     const path = 'http://localhost:3001/api/login';
@@ -46,6 +46,7 @@ export const loginUser = (credentials, dispatch) => {
                     email: decodedToken.email
                 }
             });
+            return 'done';
         } else {
             console.log("Setting empty currentUser");
             dispatch({
@@ -54,6 +55,7 @@ export const loginUser = (credentials, dispatch) => {
                     email: ''
                 }
             });
+            return 'error';
         }
     })
 }

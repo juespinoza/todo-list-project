@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
+import { logoutUser } from '../actions/AuthActions';
 
 const Menu = (props) => {
+
+    const handleLogout = (e) => {
+      e.preventDefault();
+      // const context = useContext(AuthContext); // currentUser y el dispatch que actualiza el currentUser con authReducer
+      // logoutUser(context.dispatch);
+    } 
+
     return (
       <nav>
         <ul className="flex">
@@ -14,6 +23,7 @@ const Menu = (props) => {
             <li className="text-center flex-1">
             <Link to="/proximamente" className='block py-2 px-4 text-gray-400 cursor-not-allowed'>Próximamente</Link>
             </li>
+            <a>Logout</a>
         </ul>
       </nav>
     )
