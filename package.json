@@ -2,8 +2,6 @@
   "name": "todo-list-project",
   "version": "0.1.0",
   "private": true,
-  "main": "index.js",
-  "type": "commonjs",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

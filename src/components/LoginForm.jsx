@@ -24,7 +24,7 @@ const LoginForm = () => {
         if(email === "" || password === ""){
             setError("Datos incompletos")
         } else {
-            context.dispatch(loginUser({ email, password }));
+            loginUser({ email, password }, context.dispatch);
         }
     }
 
