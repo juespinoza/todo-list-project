@@ -3,11 +3,12 @@ import TodoItem from './TodoItem'
 
 const TodoList = props => {
   const { lista, borrarTarea, checkTarea } = props
+  // console.log('TodoList lista:>', lista);
 
   const onChangeStatus = e => {
     const { name, checked } = e.target;
-    console.log("onChange", checked);
-    let itemActual = lista.filter((i) => i.id === name)[0]
+    console.log("onChange", name, checked);
+    let itemActual = lista.filter((i) => i._id === name)[0]
     checkTarea({
       ...itemActual, 
       done: checked
@@ -25,7 +26,7 @@ const TodoList = props => {
     return (
       <div key={item.id} >
         <TodoItem data={item} onChange={onChangeStatus}/>
-        <button onClick={() => borrarTarea(item.id)}>borrar {item.tarea}</button>
+        <button onClick={() => borrarTarea(item.id)}>borrar {item.name}</button>
       </div>
     )
   })

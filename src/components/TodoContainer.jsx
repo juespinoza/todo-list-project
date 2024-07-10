@@ -1,34 +1,41 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext, useEffect } from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
 import listaReducer from "../reducers/listaReducer";
+import { AuthContext } from '../contexts/AuthContext';
+import { getTasks } from "../actions/TaskActions";
 
 // Formato de elementos de mi lista de tareas
 // {
 //     done: false,  // Puede ser true o false, representa si la tarea esta hecha o no.
 //     id: (+new Date()).toString(), // identificador de mi tarea
-//     tarea // tarea >> tarea: {valor de la variable tarea}
+//     name: // tarea >> tarea: {valor de la variable tarea}
 // }
 
-
 const TodoContainer = () => {
-
-    // const [lista, setLista] = useState([])
-    // TODO: hacer get de todas las tareas existentes del usuario.
+    const context = useContext(AuthContext);
     const [lista, dispatch] = useReducer(listaReducer, []);
 
+    useEffect(() => {
+        async function fetchData() {
+            const tasks = await getTasks(context.currentUser.email);
+            // console.log('tasks', tasks);
+            dispatch({
+                type: 'initial', 
+                payload: tasks
+            })
+        }
+        fetchData();
+    }, []);
+
     const handleAddTask = (objetoTarea) => { 
-        // console.log("objeto", objetoTarea)
-        // setLista([...lista, objetoTarea])
         dispatch({
             type: 'agregar',
-            id: objetoTarea.id,
-            tarea: objetoTarea.tarea
+            payload: objetoTarea
         })
     }
 
     const borrarTarea = (id) => {
-        // setLista(lista.filter((item) => item.id !== id));
         dispatch({
             type: 'borrar',
             id
@@ -36,14 +43,11 @@ const TodoContainer = () => {
     }
 
     const checkTarea = (objetoTarea) => {
-        // setLista([...lista, objetoTarea]);
         console.log("checkeando", objetoTarea);
-        dispatch(
-            {
-                type: 'check',
-                tarea: objetoTarea
-            }
-        )
+        dispatch({
+            type: 'check',
+            payload: objetoTarea
+        })
     }
     return (
         <div>

@@ -36,7 +36,7 @@ var corsOptions = {
 const verifyToken = (req, res, next) => {
     const authorization = req.headers["authorization"];
     const token = authorization && authorization.split(' ')[1];
-    console.log(`header authorization > token`, token);
+    console.log(`token:> `, token);
     if (!token) {
       return res.status(401).json({ error: "No token sent" });
     }
@@ -215,6 +215,20 @@ app.post("/tarea", verifyToken, async (req, res) => {
     }
   } else {
     res.status(400).send({ message: "Datos incompletos para crear la tarea" });
+  }
+});
+
+
+// Ruta progetida para traer los detalles de la tarea
+app.get("/api/tasks", verifyToken, async (req, res) => {
+  try {
+    const tasks = await Task.find(req.query);
+    if (!tasks) {
+      return res.status(200).json({ error: "No hay tareas encontradas" });
+    }
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

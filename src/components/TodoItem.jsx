@@ -16,7 +16,7 @@ const TodoItem = props => {
           ...
           url: "url de imagen"
        } */
-      console.log("url de la imagen", data[0].url);
+      // console.log("url de la imagen", data[0].url);
       // nombreDeLaFuncion(nuevoValorDelEstado)
       setImgUrl(data[0].url)
     }
@@ -26,7 +26,7 @@ const TodoItem = props => {
 
   const {
     onChange,
-    data: { id, tarea, done },
+    data: { id, name, done },
   } = props;
 
   const completedStyle = {
@@ -45,7 +45,7 @@ const TodoItem = props => {
          defaultChecked={done}
          onChange={onChange}
          />
-        <div style={done ? completedStyle : null}>{tarea}</div>
+        <div style={done ? completedStyle : null}>{name}</div>
 
     </label>
 </>
