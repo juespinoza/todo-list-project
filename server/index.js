@@ -10,6 +10,7 @@ const jwtConfig = require('../jwt.config');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const { Usuario } = require('./models/usuario');
+const { Task } = require('./models/task');
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // + Configuraciones e initializacion
@@ -33,8 +34,9 @@ var corsOptions = {
 
 // Middleware verify para la validar el JWT
 const verifyToken = (req, res, next) => {
-    console.log(`header authorization`, req.headers);
-    const token = req.headers["authorization"];
+    const authorization = req.headers["authorization"];
+    const token = authorization && authorization.split(' ')[1];
+    console.log(`header authorization > token`, token);
     if (!token) {
       return res.status(401).json({ error: "No token sent" });
     }
@@ -200,12 +202,19 @@ app.post('/autenticar', async (req, res) => {
 // 5- Crear ruta que utilize el token TODO
 
 // Escuchar una solicitud POST desde nuestro frontend en la ruta "/tarea"
-app.post("/tarea", verifyToken, (req, res) => {
+app.post("/tarea", verifyToken, async (req, res) => {
   console.log("Body de mi request", req.body);
-  if (req.body) {
-    res.send({ message: `"Recibimos tu tarea.", ${req.body.tarea}` });
+  const data = req.body;
+  if (data.name && data.email) {
+    const newTask = new Task({ name: data.name, done: data.done, userEmail: data.email})
+    try{
+      await newTask.save()
+      res.send({ message: "Tarea guardada", data: newTask });
+    }catch(e){
+      res.status(404).send({ message: `Error al crear la tarea` });
+    }
   } else {
-    res.send({ message: "No recibimos tu tarea" });
+    res.status(400).send({ message: "Datos incompletos para crear la tarea" });
   }
 });
 

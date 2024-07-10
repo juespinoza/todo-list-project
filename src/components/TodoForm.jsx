@@ -1,37 +1,28 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 
 const TodoForm = props => {
     const { handleAddTask } = props // destructuring o desestructuracion
-
     const [tarea, setTarea] = useState("")
+    const context = useContext(AuthContext);
 
     const handleSubmit = (element) => {
         element.preventDefault();
         // console.log(tarea)
         // Crear mi objeto nuevo nuevaTarea
         // lo que va a ir en el body de mi solicitud
-        let usuario = 'Julia';
         let nuevaTarea = {
             id: (+new Date).toString(),
-            tarea, // tarea: "algo > valor de mi variable de estado tarea"
-            done: false
-        }
-        if(usuario){
-            nuevaTarea = {
-                ...nuevaTarea,
-                usuario
-            };
-        }
-        nuevaTarea = {
-            id: (+new Date).toString(),
-            tarea, // tarea: "algo > valor de mi variable de estado tarea"
+            name: tarea, // tarea: "algo > valor de mi variable de estado tarea"
             done: false,
-        };
+            email: context.currentUser.email || null
+        }
         // Crear el objeto de mi solicitud
         const datosSolicitud = {
             method: "POST",
             headers: {
-                'Content-Type': "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
             },
             body: JSON.stringify(nuevaTarea)
         }
@@ -47,7 +38,6 @@ const TodoForm = props => {
             console.log("data", data);
         }
         handlePostReq();
-
         setTarea("");
     };
 
