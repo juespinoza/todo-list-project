@@ -1,0 +1,27 @@
+name: CI/CD pipeline - main
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - run: echo "Comienza el despliegue de mi aplicacion:"
+          - run: echo "El usuario ${{github.actor}} esta corriendo el CI/CD"
+          - name: Checkout code
+            uses: actions/checkout@v4
+          - name: Setup Node.js
+            uses: actions/setup-node@v4
+          - run: echo "Comienzan a correr los comandos necesarios"
+          - name: Install dependencies
+            run: npm install
+          - name: Run tests
+            run: npm test
+          - name: Deploy to Heroku
+            uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
+            with:
+              heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+              heroku_app_name: "todo-list-project" #Must be unique in Heroku
+              heroku_email: "juespinozacorrea@gmail.com"
+      
